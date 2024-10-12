@@ -31,7 +31,7 @@ public class Database extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("username", username);
         cv.put("email", email);
-        cv.put("password1", password);
+        cv.put("password", password);
 
         SQLiteDatabase db = getWritableDatabase();
         // Insert into 'user' table, not 'users'
