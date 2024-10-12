@@ -8,67 +8,69 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
     EditText edUsername, edEmail, edPassword, edConfirmPassword;
-    Button btn;
-    TextView tv;
+    Button btnRegister;
+    TextView tvTitle;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        edUsername = findViewById(R.id.editTextUsernameInregistrare);
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        edUsername = findViewById(R.id.editTextUsernameInregistrare);  // You can use this if you plan to use the username elsewhere
         edEmail = findViewById(R.id.editTextInregistrareEmail);
         edPassword = findViewById(R.id.editTextInrestrareParola);
         edConfirmPassword = findViewById(R.id.editTextInrestrareParola2);
-        btn = findViewById(R.id.buttonInregistrare);
-        tv = findViewById(R.id.textInregistrareTitlu);
+        btnRegister = findViewById(R.id.buttonInregistrare);
+        tvTitle = findViewById(R.id.textInregistrareTitlu);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-            }
-        });
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = edUsername.getText().toString();
+                String email = edEmail.getText().toString();
                 String password = edPassword.getText().toString();
                 String confirmPassword = edConfirmPassword.getText().toString();
-                String email = edEmail.getText().toString();
-                Database db = new Database(getApplicationContext(), "buildBid_db", null, 1);
-                if (username.length() == 0 || password.length() == 0 || email.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Va rog sa introduceti in campul nume", Toast.LENGTH_SHORT).show();
+                String username = edUsername.getText().toString();  // Optional if you're not using it yet
+
+                if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Completeaza toate campurile", Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(confirmPassword)) {
+                    Toast.makeText(RegisterActivity.this, "Parolele nu sunt identice", Toast.LENGTH_SHORT).show();
+                } else if (!isValid(password)) {
+                    Toast.makeText(RegisterActivity.this, "Parola trebuie sa contina minim 8 caractere, o litera, un numar si un caracter special", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (password.compareTo(confirmPassword) == 0) {
-                        if (isValid(password)) {
-                            db.register(username, email, password);
-                            Toast.makeText(getApplicationContext(), "Contul a fost creat", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Parola nu are litere mari sau numere in ea", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Parolele nu concid", Toast.LENGTH_SHORT).show();
-                    }
-
+                    registerUser(email, password);
                 }
-
             }
         });
-
-
     }
 
+    // Register user with Firebase Authentication
+    private void registerUser(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(RegisterActivity.this, "Te-ai inregistrat cu succes!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        finish();
+                    } else {
+                        // If registration fails, display an error message
+                        Toast.makeText(RegisterActivity.this, "Inregistrare esuata: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    // Password validation method (same as your original one)
     public static boolean isValid(String password) {
         int try1 = 0, try2 = 0, try3 = 0;
         if (password.length() < 8) {
@@ -91,9 +93,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         }
-        if (try1 == 1 && try2 == 1 && try3 == 1) {
-            return true;
-        }
-        return false;
+        return try1 == 1 && try2 == 1 && try3 == 1;
     }
 }
