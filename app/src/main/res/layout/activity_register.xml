@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/img_4"
+        tools:context=".LoginActivity">
+
+        <TextView
+            android:id="@+id/textAiDejaUnCont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="556dp"
+            android:text="Ai deja un cont?"
+            android:textColor="#FBFBFB"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textLogoInregistrare" />
+
+        <EditText
+            android:id="@+id/editTextInrestrareParola"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/input_bg"
+            android:drawableLeft="@drawable/ic_password_person"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="Parola:"
+            android:inputType="textVisiblePassword"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextUsernameInregistrare"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <EditText
+            android:id="@+id/editTextInrestrareParola2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/input_bg"
+            android:drawableLeft="@drawable/ic_password_person"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="Confirma Parola:"
+            android:inputType="textVisiblePassword"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextInrestrareParola"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <ImageView
+            android:id="@+id/imageLogo"
+            android:layout_width="87dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/img_2" />
+
+        <TextView
+            android:id="@+id/textLogoInregistrare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#F0F0F0"
+            android:text="BuildBid"
+            android:textAlignment="center"
+            android:textColor="#070707"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textInregistrareTitlu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="116dp"
+            android:text="Inregistrare"
+            android:textColor="#FBFBFB"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textLogoInregistrare" />
+
+
+        <EditText
+            android:id="@+id/editTextUsernameInregistrare"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/input_bg"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="Nume:"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInregistrareTitlu"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <EditText
+            android:id="@+id/editTextInregistrareEmail"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="160dp"
+            android:background="@drawable/input_bg"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="Email:"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextUsernameInregistrare"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <Button
+            android:id="@+id/buttonInregistrare"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="28dp"
+            android:text="Creaza Cont"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextInregistrareEmail"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.6" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
