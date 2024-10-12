@@ -10,59 +10,90 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText edUsername, edPassword;
-    Button btnLogare, btnInregistrare;
-    TextView tvLogo, tvLogin, tvDacaNuAiCont;
+    EditText edEmail, edPassword;
+    Button btnLogin, btnRegister;
+    TextView tvLogo, tvLogin, tvNoAccount;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
 
-        edUsername = findViewById(R.id.editTextUsernameLogin);
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        edEmail = findViewById(R.id.editTextUsernameLogin);
         edPassword = findViewById(R.id.editTextLoginParola);
-        btnLogare = findViewById(R.id.buttonLogin);
-        btnInregistrare = findViewById(R.id.buttonregister);
+        btnLogin = findViewById(R.id.buttonLogin);
+        btnRegister = findViewById(R.id.buttonregister);
         tvLogo = findViewById(R.id.textLogo);
         tvLogin = findViewById(R.id.textLoginTitle);
-        tvDacaNuAiCont = findViewById(R.id.textDacaNuAiCont);
-        Database db = new Database(getApplicationContext(), "buildBid_db", null, 1);
-        btnLogare.setOnClickListener(new View.OnClickListener() {
+        tvNoAccount = findViewById(R.id.textDacaNuAiCont);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = edUsername.getText().toString();
+                String email = edEmail.getText().toString();
                 String password = edPassword.getText().toString();
-                if (username.length() == 0 || password.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Va rog sa introduceti in campul nume", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (db.login(username, password) == 1) {
-                        Toast.makeText(getApplicationContext(), "Logare cu Succes", Toast.LENGTH_SHORT).show();
-                        SharedPreferences sharedpreferences = getSharedPreferences("shared_pref", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString("username", username);
-                        editor.apply();
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Logare nu a reusit cu succes ", Toast.LENGTH_SHORT).show();
-                    }
 
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Completeaza toate campurile.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                loginUser(email, password);  // Call Firebase login method
             }
         });
-        btnInregistrare.setOnClickListener(new View.OnClickListener() {
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+    }
+
+    // Firebase Authentication Login Method
+    private void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // Save user info in shared preferences
+                            SharedPreferences sharedPreferences = getSharedPreferences("shared_pref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("username", user.getEmail());  // Store email or user ID
+                            editor.apply();
+
+                            // Navigate to HomeActivity
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish(); // Optional: Close LoginActivity
+                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(LoginActivity.this, "Autentificare esuata: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check if the user is already logged in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish(); // Close LoginActivity
+        }
     }
 }
