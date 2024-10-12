@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "950301205667",
+    "project_id": "buildbid-project",
+    "storage_bucket": "buildbid-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950301205667:android:e2d6787c5e43fb2a7e0b16",
+        "android_client_info": {
+          "package_name": "com.example.buildbid1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8iVQmLZVsx4cLofGve92sb17KZeJ04B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
